@@ -1,5 +1,5 @@
 def iterPower(base, exp):
-    result = 0
+    result = 1
     while exp > 0:
         result *= base
         exp -= 1
