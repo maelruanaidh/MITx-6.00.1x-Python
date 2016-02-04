@@ -1,0 +1,53 @@
+x = float(raw_input('Enter the current balance on the credit card: $'))
+a = float(raw_input('Enter the annual interest rate: %'))
+y = float(raw_input('Enter the minimum monthly payment rate: %'))
+p = float(raw_input('Desired monthly payment: $'))
+a /= 100
+y /= 100
+
+# daily interest rate, effective APR, effective MPR, iteration counter for each month, cumulative interest paid, cumulative principle paid, initial balance
+d = a/365
+r = (((d+1)**365)-1)
+m = r/12
+i = 0
+tiPaid = 0.00
+tpPaid = 0.00
+iBal = x
+
+while x > 0:
+    # minimum monthly payment, current interest paid, current principle paid
+    minp = max(float(x*y),p)
+    iPay = float(m*x)
+    pPay = float(minp-iPay)
+
+    if x > (iBal * 100):
+        break
+    else:
+        #Step 1: print: starting balance, payment amount, interest paid, principle paid
+        print ('------------------------------------------')
+        print ('Starting balance of month #%.0f: ${:,.2f}'.format(x) % (i))
+
+        #Step 2: calc unpaid balance
+        x -= minp
+        tiPaid += iPay
+        tpPaid += pPay
+        print('\tMonthly payment of: ${:,.2f}'.format(minp))
+
+        #Step 3: accrue interest
+        x *= (m+1)
+
+        #Step 4: print: ending balance
+        print ('\t\tInterest paid this month: ${:,.2f}'.format(iPay))
+        print ('\t\tPrinciple paid this month: ${:,.2f}'.format(pPay))
+        print ('Ending balance of month #%.0f: ${:,.2f}'.format(x) % (i))
+
+        #Step 5: increase iteration counter
+        i += 1
+
+if x <= 0:
+    print('------------------------------------------')
+    print ('Your initial balance of ${:,.2f}; took %.0f months to pay off, with an additional ${:,.2f} of total interest paid!'.format(iBal,tiPaid) % (i))
+else:
+    print ('------------------------------------------')
+    print ('!!! Warning minimum monthly payment insufficient to pay off current balance !!!')
+    print ('After %.0f months, your current balance is ${:,.2f}!'.format(x) % (i))
